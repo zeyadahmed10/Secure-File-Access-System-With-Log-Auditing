@@ -27,6 +27,7 @@ public class FileController {
     }
     @PostMapping
     public FileResponseDTO addFile(@RequestBody FileRequestDTO fileRequestDTO){
+        fileService.addFile(fileRequestDTO);
         return null;
     }
     @PostMapping("/{id}/grant-access")
