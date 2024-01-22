@@ -26,4 +26,7 @@ public class FileService {
 
     public void updateFile(Integer id, FileRequestDTO fileRequestDTO) {
     }
+
+    public void addFile(FileRequestDTO fileRequestDTO) {
+    }
 }
