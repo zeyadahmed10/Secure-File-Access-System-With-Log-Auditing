@@ -1,7 +1,7 @@
 package com.zeyad.securefileaccess.controllers;
 
-import com.zeyad.securefileaccess.dto.SigninDto;
-import com.zeyad.securefileaccess.dto.SignupDto;
+import com.zeyad.securefileaccess.dto.request.SigninRequestDTO;
+import com.zeyad.securefileaccess.dto.request.SignupRequestDTO;
 import com.zeyad.securefileaccess.services.KeyCloakService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,9 +31,9 @@ public class AuthController {
     @PostMapping("/signup")
     @ApiResponse(responseCode = "200", description = "OK")
     public String signupUser(
-            @Parameter(description = "User signup information") @Valid @RequestBody SignupDto signupDto
+            @Parameter(description = "User signup information") @Valid @RequestBody SignupRequestDTO signupRequestDTO
     ) throws IllegalAccessException {
-        return keyCloakService.createUser(signupDto);
+        return keyCloakService.createUser(signupRequestDTO);
     }
 
     @Operation(
@@ -43,8 +43,8 @@ public class AuthController {
     @PostMapping("/signin")
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseEntity.class)))
     public ResponseEntity<Object> signinUser(
-            @Parameter(description = "User login information") @Valid @RequestBody SigninDto signinDto
+            @Parameter(description = "User login information") @Valid @RequestBody SigninRequestDTO signinRequestDTO
     ) {
-        return keyCloakService.getUserToken(signinDto);
+        return keyCloakService.getUserToken(signinRequestDTO);
     }
 }

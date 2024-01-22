@@ -1,8 +1,8 @@
 package com.zeyad.securefileaccess.services;
 
 
-import com.zeyad.securefileaccess.dto.SigninDto;
-import com.zeyad.securefileaccess.dto.SignupDto;
+import com.zeyad.securefileaccess.dto.request.SigninRequestDTO;
+import com.zeyad.securefileaccess.dto.request.SignupRequestDTO;
 import com.zeyad.securefileaccess.exceptions.ResourceExistedException;
 import com.zeyad.securefileaccess.exceptions.ResourceNotFoundException;
 import jakarta.ws.rs.core.Response;
@@ -39,7 +39,7 @@ public class KeyCloakService {
     @Value("${keycloak.loginUrl}")
     private String loginUrl;
 
-    public ResponseEntity<Object> getUserToken(SigninDto signinDto){
+    public ResponseEntity<Object> getUserToken(SigninRequestDTO signinRequestDTO){
         //creating headers for request
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED.toString());
@@ -47,36 +47,36 @@ public class KeyCloakService {
         //creating body for request
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", OAuth2Constants.PASSWORD);
-        requestBody.add("username", signinDto.getUsername());
-        requestBody.add("password", signinDto.getPassword());
+        requestBody.add("username", signinRequestDTO.getUsername());
+        requestBody.add("password", signinRequestDTO.getPassword());
         requestBody.add("client_id", clientId);
         HttpEntity<MultiValueMap<String, String>> loginEntity = new HttpEntity<>(requestBody, headers);
         return restTemplate.exchange(loginUrl, HttpMethod.POST, loginEntity, Object.class);
 
     }
-    public String createUser(SignupDto signupDto) throws IllegalAccessException {
-        var passwordCredentials =createPasswordCredentials(signupDto);
-        var roleRepresentation = getRoleRepresentation(signupDto.getRole());
-        var userRepresentation = getUserRepresentation(signupDto);
+    public String createUser(SignupRequestDTO signupRequestDTO) throws IllegalAccessException {
+        var passwordCredentials =createPasswordCredentials(signupRequestDTO);
+        var roleRepresentation = getRoleRepresentation(signupRequestDTO.getRole());
+        var userRepresentation = getUserRepresentation(signupRequestDTO);
         userRepresentation.setCredentials(Arrays.asList(passwordCredentials));
         Response response = keycloak.realm(realm).users().create(userRepresentation);
 
         if(!(response.getStatus()>=200&&response.getStatus()<300))
             throw new RuntimeException("error creating user: "
-                    + signupDto +" with code: "+response.getStatus());
+                    + signupRequestDTO +" with code: "+response.getStatus());
 
         String userId = CreatedResponseUtil.getCreatedId(response);
         UserResource userResource = keycloak.realm(realm).users().get(userId);
         userResource.roles().realmLevel().add(Arrays.asList(roleRepresentation));
         return "User created successfully with Id: "+userId;
     }
-    public CredentialRepresentation createPasswordCredentials(SignupDto signupDto) throws IllegalAccessException {
-        if(!signupDto.getPassword().equals(signupDto.getConfirmedPassword()))
+    public CredentialRepresentation createPasswordCredentials(SignupRequestDTO signupRequestDTO) throws IllegalAccessException {
+        if(!signupRequestDTO.getPassword().equals(signupRequestDTO.getConfirmedPassword()))
             throw new IllegalAccessException("Confirmed password does not match password");
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
         passwordCredentials.setTemporary(false);
         passwordCredentials.setType(CredentialRepresentation.PASSWORD);
-        passwordCredentials.setValue(signupDto.getPassword());
+        passwordCredentials.setValue(signupRequestDTO.getPassword());
         return passwordCredentials;
     }
     public RoleRepresentation getRoleRepresentation(String roleName){
@@ -86,20 +86,20 @@ public class KeyCloakService {
 
         return roleRepresentation;
     }
-    public UserRepresentation getUserRepresentation(SignupDto signupDto){
-        boolean userExists = keycloak.realm(realm).users().searchByUsername(signupDto.getUsername() , true).size()>0;
+    public UserRepresentation getUserRepresentation(SignupRequestDTO signupRequestDTO){
+        boolean userExists = keycloak.realm(realm).users().searchByUsername(signupRequestDTO.getUsername() , true).size()>0;
         if(userExists)
-            throw new ResourceExistedException("User already exists with username " + signupDto.getUsername());
+            throw new ResourceExistedException("User already exists with username " + signupRequestDTO.getUsername());
 
-        boolean emailExists = keycloak.realm(realm).users().searchByEmail(signupDto.getEmail() , true).size()>0;
+        boolean emailExists = keycloak.realm(realm).users().searchByEmail(signupRequestDTO.getEmail() , true).size()>0;
         if(emailExists)
-            throw new ResourceExistedException("User already exists with username " + signupDto.getEmail());
+            throw new ResourceExistedException("User already exists with username " + signupRequestDTO.getEmail());
 
         UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setUsername(signupDto.getUsername());
-        userRepresentation.setEmail(signupDto.getEmail());
-        userRepresentation.setFirstName(signupDto.getFirstName());
-        userRepresentation.setLastName(signupDto.getLastName());
+        userRepresentation.setUsername(signupRequestDTO.getUsername());
+        userRepresentation.setEmail(signupRequestDTO.getEmail());
+        userRepresentation.setFirstName(signupRequestDTO.getFirstName());
+        userRepresentation.setLastName(signupRequestDTO.getLastName());
         userRepresentation.setEnabled(true);
         return userRepresentation;
     }

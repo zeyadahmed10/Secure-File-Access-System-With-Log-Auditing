@@ -1,4 +1,4 @@
-package com.zeyad.securefileaccess.dto;
+package com.zeyad.securefileaccess.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SignupDto {
+public class SignupRequestDTO {
     @NotNull
     private String username;
     @NotNull
