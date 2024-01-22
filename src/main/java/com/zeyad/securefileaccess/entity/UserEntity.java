@@ -1,4 +1,4 @@
-package com.zeyad.securefileacess.entity;
+package com.zeyad.securefileaccess.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

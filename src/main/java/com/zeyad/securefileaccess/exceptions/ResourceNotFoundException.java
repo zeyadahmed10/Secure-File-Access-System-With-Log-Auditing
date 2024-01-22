@@ -1,4 +1,4 @@
-package com.zeyad.securefileacess.exceptions;
+package com.zeyad.securefileaccess.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message, Throwable cause) {

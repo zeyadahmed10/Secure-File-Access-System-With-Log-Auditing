@@ -1,4 +1,4 @@
-package com.zeyad.securefileacess.config;
+package com.zeyad.securefileaccess.config;
 
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;

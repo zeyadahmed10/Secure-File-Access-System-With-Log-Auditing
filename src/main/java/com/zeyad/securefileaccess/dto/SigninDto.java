@@ -1,4 +1,4 @@
-package com.zeyad.securefileacess.dto;
+package com.zeyad.securefileaccess.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

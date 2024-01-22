@@ -1,4 +1,4 @@
-package com.zeyad.securefileacess;
+package com.zeyad.securefileaccess;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

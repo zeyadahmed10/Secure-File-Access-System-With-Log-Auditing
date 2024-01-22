@@ -1,4 +1,4 @@
-package com.zeyad.securefileacess.dto;
+package com.zeyad.securefileaccess.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

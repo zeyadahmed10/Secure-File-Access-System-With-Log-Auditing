@@ -1,10 +1,10 @@
-package com.zeyad.securefileacess.services;
+package com.zeyad.securefileaccess.services;
 
 
-import com.zeyad.securefileacess.dto.SigninDto;
-import com.zeyad.securefileacess.dto.SignupDto;
-import com.zeyad.securefileacess.exceptions.ResourceExistedException;
-import com.zeyad.securefileacess.exceptions.ResourceNotFoundException;
+import com.zeyad.securefileaccess.dto.SigninDto;
+import com.zeyad.securefileaccess.dto.SignupDto;
+import com.zeyad.securefileaccess.exceptions.ResourceExistedException;
+import com.zeyad.securefileaccess.exceptions.ResourceNotFoundException;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.OAuth2Constants;

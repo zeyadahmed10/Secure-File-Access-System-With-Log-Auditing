@@ -1,8 +1,8 @@
-package com.zeyad.securefileacess.controllers;
+package com.zeyad.securefileaccess.controllers;
 
-import com.zeyad.securefileacess.dto.SigninDto;
-import com.zeyad.securefileacess.dto.SignupDto;
-import com.zeyad.securefileacess.services.KeyCloakService;
+import com.zeyad.securefileaccess.dto.SigninDto;
+import com.zeyad.securefileaccess.dto.SignupDto;
+import com.zeyad.securefileaccess.services.KeyCloakService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
