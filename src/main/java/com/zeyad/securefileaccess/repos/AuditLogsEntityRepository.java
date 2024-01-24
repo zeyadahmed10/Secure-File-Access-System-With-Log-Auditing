@@ -1,4 +1,7 @@
 package com.zeyad.securefileaccess.repos;
 
-public interface AuditLogsEntityRepository extends org.springframework.data.jpa.repository.JpaRepository<com.zeyad.securefileaccess.entity.AuditLogsEntity, java.lang.Integer> {
+import com.zeyad.securefileaccess.entity.AuditLogsEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuditLogsEntityRepository extends JpaRepository<AuditLogsEntity, Integer> {
 }
