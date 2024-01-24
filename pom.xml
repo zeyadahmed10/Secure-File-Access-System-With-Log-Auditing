@@ -87,7 +87,7 @@
 						</goals>
 						<configuration>
 							<includes>
-								<include>com.orm.querybenchmark.entity.**</include>
+								<include>com.zeyad.securefileaccess.entity.**</include>
 								<!--								<include> package.entity.**</include>-->
 							</includes>
 						</configuration>

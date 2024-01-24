@@ -1,5 +1,7 @@
 package com.zeyad.securefileaccess;
 
+import com.zeyad.securefileaccess.dao.FileDAO;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,5 +18,11 @@ public class SecureFileAccessApplication {
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
+	}
+	@Bean
+	CommandLineRunner commandLineRunner(FileDAO repo){
+		return args -> {
+			repo.getAllFilesForUser("d8173183-0c24-4f62-b1ae-6eb635c2440c", 1);
+		};
 	}
 }
