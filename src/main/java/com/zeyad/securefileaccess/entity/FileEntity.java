@@ -39,6 +39,7 @@ public class FileEntity {
             joinColumns = @JoinColumn(name = "file_id") ,
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @Builder.Default
     Set<UserEntity> authorizedUsers = new HashSet<>();
 
 }

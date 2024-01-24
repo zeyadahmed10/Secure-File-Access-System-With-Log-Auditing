@@ -1,7 +1,7 @@
 package com.zeyad.securefileaccess.services;
 
 import com.zeyad.securefileaccess.entity.AuditLogsEntity;
-import com.zeyad.securefileaccess.repos.AuditLogsEntityRepository;
+import com.zeyad.securefileaccess.dao.AuditLogsEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

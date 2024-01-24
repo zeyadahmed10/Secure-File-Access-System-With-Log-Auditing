@@ -21,19 +21,18 @@ public class FileController {
     public List<FileResponseDTO> getFiles(@RequestParam(name = "name", defaultValue = "") String name,
                                           @RequestParam(name = "page", defaultValue = "0") Integer page,
                                           @RequestParam(name = "size", defaultValue = "10") Integer size){
-        return fileService.findAll();
+        return fileService.findAllForUser();
     }
     @AuditLogs
     @CheckFileAuthority
     @GetMapping("/{id}")
     public FileResponseDTO getFileById(@PathVariable Integer id){
-        return new FileResponseDTO();
+        return fileService.findById(id);
     }
     @AuditLogs
     @PostMapping
     public FileResponseDTO addFile(@RequestBody FileRequestDTO fileRequestDTO){
-        fileService.addFile(fileRequestDTO);
-        return new FileResponseDTO();
+        return fileService.addFile(fileRequestDTO);
     }
     @AuditLogs
     @CheckFileAuthority
@@ -52,8 +51,7 @@ public class FileController {
     @AuditLogs
     @CheckFileAuthority
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateFile(@PathVariable Integer id, @RequestBody FileRequestDTO fileRequestDTO){
-        fileService.updateFile(id, fileRequestDTO);
-        return ResponseEntity.noContent().build();
+    public FileResponseDTO updateFile(@PathVariable Integer id, @RequestBody FileRequestDTO fileRequestDTO){
+        return fileService.updateFile(id, fileRequestDTO);
     }
 }
