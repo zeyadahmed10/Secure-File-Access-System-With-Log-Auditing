@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity
+@EnableMethodSecurity()
 public class WebSecurity {
     private static final String[] WHITE_LIST_URL = {
             "/v2/api-docs",

@@ -17,5 +17,8 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<?> handleConflict(ForbiddenFileAccessException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
-
+    @ExceptionHandler(value = {ResourceExistedException.class})
+    protected ResponseEntity<?> handleConflict(ResourceExistedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }

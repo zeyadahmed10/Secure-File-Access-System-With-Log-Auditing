@@ -6,6 +6,7 @@ import com.zeyad.securefileaccess.dto.request.FileRequestDTO;
 import com.zeyad.securefileaccess.dto.request.GrantAccessRequestDTO;
 import com.zeyad.securefileaccess.dto.response.FileResponseDTO;
 import com.zeyad.securefileaccess.entity.FileEntity;
+import com.zeyad.securefileaccess.entity.UserEntity;
 import com.zeyad.securefileaccess.exceptions.ResourceNotFoundException;
 import com.zeyad.securefileaccess.mapper.FileResponseDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,18 +35,29 @@ public class FileService {
         String userId = token.getClaimAsString("sub");
         return FileResponseDtoMapper.map(fileDAO.getAllFilesForUser(userId));
     }
-    public List<FileResponseDTO> fidAll(){
+    public List<FileResponseDTO> findAll(){
         return FileResponseDtoMapper.map(fileDAO.getAllFiles());
     }
 
     public FileResponseDTO findById(Integer id) {
         var file = fileDAO.getFileById(id);
         if(file ==null)
-            fileDAO.getFileById(id);
+            throw new ResourceNotFoundException("No file with id: "+id);
         return FileResponseDtoMapper.map(file);
     }
 
     public void grantAccess(Integer id, GrantAccessRequestDTO grantAccessRequestDTO) {
+        var file = fileDAO.getFileById(id);
+        if(file ==null)
+            throw new ResourceNotFoundException("No file with id: "+id);
+        List<UserEntity> users = new ArrayList<UserEntity>();
+        for(var name: grantAccessRequestDTO.getUsers()){
+            UserEntity user = userEntityDAO.getUserByUsername(name);
+            if(user !=null)
+                throw new ResourceNotFoundException("User with username: "+name);
+            users.add(user);
+        }
+        file.getAuthorizedUsers().addAll(users);
     }
 
     public void deleteFile(Integer id) {

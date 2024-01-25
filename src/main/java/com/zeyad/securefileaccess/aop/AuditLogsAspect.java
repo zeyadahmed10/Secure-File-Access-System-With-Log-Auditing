@@ -49,7 +49,7 @@ public class AuditLogsAspect {
     private String getChecksum(Object result, String method, String endpoint){
         if(method.equals("DELETE"))
             return "";
-        if(method.equals("GET") && endpoint.equals("/api/v1/files"))
+        if(method.equals("GET") && (endpoint.equals("/api/v1/files")||endpoint.equals("/api/v1/admin/files")))
             return "";
         return ((FileResponseDTO) result).getChecksum();
     }

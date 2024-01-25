@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 public class FileResponseDtoMapper {
     public static FileResponseDTO map(FileEntity fileEntity){
+        if(fileEntity==null)
+            return null;
        return FileResponseDTO.builder()
                .id(fileEntity.getId()).name(fileEntity.getName())
                .content(fileEntity.getContent()).checksum(fileEntity.getChecksum())

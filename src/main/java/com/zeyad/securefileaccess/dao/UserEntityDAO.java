@@ -17,4 +17,8 @@ public class UserEntityDAO {
         QUserEntity user = QUserEntity.userEntity;
         return queryFactory.select(user).from(user).where(user.id.eq(userId)).fetchOne();
     }
+    public UserEntity getUserByUsername(String username){
+        QUserEntity user = QUserEntity.userEntity;
+        return queryFactory.select(user).from(user).where(user.username.eq(username)).fetchOne();
+    }
 }
