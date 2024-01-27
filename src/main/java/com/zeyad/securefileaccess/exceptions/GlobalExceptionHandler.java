@@ -21,4 +21,8 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<?> handleConflict(ResourceExistedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(value = {NotAuthorizedException.class})
+    protected ResponseEntity<?> handleConflict(NotAuthorizedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 }
