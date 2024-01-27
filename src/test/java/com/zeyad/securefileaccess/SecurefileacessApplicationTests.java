@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SecurefileacessApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

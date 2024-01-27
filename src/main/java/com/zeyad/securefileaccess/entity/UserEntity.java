@@ -1,10 +1,12 @@
 package com.zeyad.securefileaccess.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 @Entity
 @Table(name = "user_entity", schema = "bitnami")
 @Data
+@Builder
 public class UserEntity {
 
     @Id
