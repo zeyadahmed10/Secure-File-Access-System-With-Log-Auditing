@@ -30,11 +30,12 @@ public class FileDAO {
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(this.entityManager);
     }
-    public List<FileEntity> getAllFilesForUser(String userId, int page, int size){
+    public List<FileEntity> getAllFilesForUser(String userId, String name, int page, int size){
         QUserEntity user = QUserEntity.userEntity;
         QFileEntity file = QFileEntity.fileEntity;
         return queryFactory.select(file).from(file)
                 .join(file.authorizedUsers, user).on(user.id.eq(userId))
+                .where(file.name.like("%"+name+"%"))
                 .orderBy(file.id.asc()).limit(size).offset((long) page *size).fetch();
     }
     public FileEntity getFileById(Integer fileId){
@@ -42,9 +43,9 @@ public class FileDAO {
         QFileEntity file = QFileEntity.fileEntity;
         return queryFactory.select(file).from(file).where(file.id.eq(fileId)).fetchOne();
     }
-    public List<FileEntity> getAllFiles(int page, int size){
+    public List<FileEntity> getAllFiles(String name, int page, int size){
         QFileEntity file = QFileEntity.fileEntity;
-        return queryFactory.select(file).from(file).orderBy(file.id.asc())
+        return queryFactory.select(file).from(file).where(file.name.like("%"+name+"%")).orderBy(file.id.asc())
                 .limit(size).offset((long) page *size).fetch();
     }
     public FileEntity updateFileEntity(Integer fileId, String newName, String newContent, String newChecksum) {

@@ -29,14 +29,14 @@ public class FileService {
     private FileDAO fileDAO;
     @Autowired
     private UserEntityDAO userEntityDAO;
-    public List<FileResponseDTO> findAllForUser(){
+    public List<FileResponseDTO> findAllForUser(String name, int page, int size){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Jwt token = (Jwt) principal;
         String userId = token.getClaimAsString("sub");
-        return FileResponseDtoMapper.map(fileDAO.getAllFilesForUser(userId));
+        return FileResponseDtoMapper.map(fileDAO.getAllFilesForUser(userId, name, page, size));
     }
-    public List<FileResponseDTO> findAll(){
-        return FileResponseDtoMapper.map(fileDAO.getAllFiles());
+    public List<FileResponseDTO> findAll(String name, int page, int size){
+        return FileResponseDtoMapper.map(fileDAO.getAllFiles(name, page, size));
     }
 
     public FileResponseDTO findById(Integer id) {

@@ -7,6 +7,7 @@ import com.zeyad.securefileaccess.dto.request.FileRequestDTO;
 import com.zeyad.securefileaccess.dto.request.GrantAccessRequestDTO;
 import com.zeyad.securefileaccess.dto.response.FileResponseDTO;
 import com.zeyad.securefileaccess.services.FileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/admin/files")
 @CustomPreAuthorize(role = "admin")
 @RestController
+@Tag(name = "Admin File Controller", description = "APIs for files management and granting access to files for admins")
 public class AdminFileController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class AdminFileController {
     public List<FileResponseDTO> getFiles(@RequestParam(name = "name", defaultValue = "") String name,
                                           @RequestParam(name = "page", defaultValue = "0") Integer page,
                                           @RequestParam(name = "size", defaultValue = "10") Integer size){
-        return fileService.findAll();
+        return fileService.findAll(name, page, size);
     }
     @AuditLogs
     @GetMapping("/{id}")
