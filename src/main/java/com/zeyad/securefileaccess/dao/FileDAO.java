@@ -30,20 +30,22 @@ public class FileDAO {
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(this.entityManager);
     }
-    public List<FileEntity> getAllFilesForUser(String userId){
+    public List<FileEntity> getAllFilesForUser(String userId, int page, int size){
         QUserEntity user = QUserEntity.userEntity;
         QFileEntity file = QFileEntity.fileEntity;
         return queryFactory.select(file).from(file)
-                .join(file.authorizedUsers, user).on(user.id.eq(userId)).fetch();
+                .join(file.authorizedUsers, user).on(user.id.eq(userId))
+                .orderBy(file.id.asc()).limit(size).offset((long) page *size).fetch();
     }
     public FileEntity getFileById(Integer fileId){
         QUserEntity user = QUserEntity.userEntity;
         QFileEntity file = QFileEntity.fileEntity;
         return queryFactory.select(file).from(file).where(file.id.eq(fileId)).fetchOne();
     }
-    public List<FileEntity> getAllFiles(){
+    public List<FileEntity> getAllFiles(int page, int size){
         QFileEntity file = QFileEntity.fileEntity;
-        return queryFactory.select(file).from(file).fetch();
+        return queryFactory.select(file).from(file).orderBy(file.id.asc())
+                .limit(size).offset((long) page *size).fetch();
     }
     public FileEntity updateFileEntity(Integer fileId, String newName, String newContent, String newChecksum) {
         var file =  fileEntityRepository.findById(fileId).orElseThrow(
