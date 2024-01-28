@@ -21,6 +21,8 @@ This project is a secure Spring Boot application developed to ensure robust secu
 - Spring Security 6
 - KeyCloak
 - AspectJ
+- Querydsl
+- Postgres
 - JUnit 5 & Mockito
 - Docker & Docker Compose
 - Testcontainers
