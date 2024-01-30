@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     @Autowired
     private KeyCloakService keyCloakService;
-
     @Operation(
             summary = "Signup new user",
             description = "Create a new user account."

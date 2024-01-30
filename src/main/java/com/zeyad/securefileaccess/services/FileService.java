@@ -53,11 +53,12 @@ public class FileService {
         List<UserEntity> users = new ArrayList<UserEntity>();
         for(var name: grantAccessRequestDTO.getUsers()){
             UserEntity user = userEntityDAO.getUserByUsername(name);
-            if(user !=null)
-                throw new ResourceNotFoundException("User with username: "+name);
+            if(user ==null)
+                throw new ResourceNotFoundException("User with username: "+name+" does not exist");
             users.add(user);
         }
         file.getAuthorizedUsers().addAll(users);
+        fileDAO.addFile(file);
     }
 
     public void deleteFile(Integer id) {
