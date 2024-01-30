@@ -1,4 +1,5 @@
-# Project Name: Secure Spring Boot Application
+# Project Name: Secure File Access System With Log Auditing
+
 
 ## Overview:
 This project is a secure Spring Boot application developed to ensure robust security measures and comprehensive testing. It utilizes various technologies including Spring Boot 3, Spring Security 6, KeyCloak, AspectJ, JUnit 5 & Mockito, and Testcontainers.
