@@ -43,28 +43,6 @@
   "quickLoginCheckMilliSeconds": 1000,
   "maxDeltaTimeSeconds": 43200,
   "failureFactor": 30,
-  "users": [
-    {
-      "username": "username",
-      "email": "user@example.com",
-      "firstName": "user",
-      "lastName": "name",
-      "enabled": true,
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password"
-        }
-      ],
-      "clientRoles": {
-        "account": [
-          "view-profile",
-          "manage-account",
-          "admin"
-        ]
-      }
-    }
-  ],
   "roles": {
     "realm": [
       {
@@ -86,10 +64,10 @@
               "manage-users",
               "view-realm",
               "query-users",
-              "manage-identity-providers",
               "query-groups",
-              "view-clients",
+              "manage-identity-providers",
               "impersonation",
+              "view-clients",
               "view-users",
               "manage-realm",
               "manage-authorization",
@@ -151,10 +129,10 @@
               "manage-users",
               "view-realm",
               "query-users",
-              "manage-identity-providers",
               "query-groups",
-              "view-clients",
+              "manage-identity-providers",
               "impersonation",
+              "view-clients",
               "view-users",
               "manage-realm",
               "manage-authorization",
@@ -203,8 +181,8 @@
           "composites": {
             "client": {
               "realm-management": [
-                "view-clients",
                 "impersonation",
+                "view-clients",
                 "view-identity-providers",
                 "view-users",
                 "manage-realm",
@@ -218,8 +196,8 @@
                 "view-realm",
                 "query-users",
                 "view-events",
-                "manage-identity-providers",
                 "query-groups",
+                "manage-identity-providers",
                 "query-clients"
               ]
             }
@@ -524,10 +502,10 @@
                 "manage-users",
                 "view-realm",
                 "query-users",
-                "manage-identity-providers",
                 "query-groups",
-                "view-clients",
+                "manage-identity-providers",
                 "impersonation",
+                "view-clients",
                 "view-users",
                 "manage-realm",
                 "manage-authorization",
@@ -582,10 +560,11 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
-    "totpAppGoogleName",
     "totpAppFreeOTPName",
+    "totpAppGoogleName",
     "totpAppMicrosoftAuthenticatorName"
   ],
+  "localizationTexts": {},
   "webAuthnPolicyRpEntityName": "keycloak",
   "webAuthnPolicySignatureAlgorithms": [
     "ES256"
@@ -598,6 +577,7 @@
   "webAuthnPolicyCreateTimeout": 0,
   "webAuthnPolicyAvoidSameAuthenticatorRegister": false,
   "webAuthnPolicyAcceptableAaguids": [],
+  "webAuthnPolicyExtraOrigins": [],
   "webAuthnPolicyPasswordlessRpEntityName": "keycloak",
   "webAuthnPolicyPasswordlessSignatureAlgorithms": [
     "ES256"
@@ -610,6 +590,35 @@
   "webAuthnPolicyPasswordlessCreateTimeout": 0,
   "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister": false,
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
+  "webAuthnPolicyPasswordlessExtraOrigins": [],
+  "users": [
+    {
+      "id": "59058290-9a3d-4ac8-b746-131c6a2d1232",
+      "createdTimestamp": 1706720318160,
+      "username": "client-admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "credentials": [
+        {
+          "id": "d72ac9d6-2d98-4458-927a-93dd79014192",
+          "type": "password",
+          "userLabel": "My password",
+          "createdDate": 1706720381789,
+          "secretData": "{\"value\":\"wspC/5Xat8l1Y4HQGLC2dui81rrnVm995yNnp49R47Q=\",\"salt\":\"6badrbGLyW6FvwbKJQgGKg==\",\"additionalParameters\":{}}",
+          "credentialData": "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-secure-file-system",
+        "admin"
+      ],
+      "notBefore": 0,
+      "groups": []
+    }
+  ],
   "scopeMappings": [
     {
       "clientScope": "offline_access",
@@ -758,6 +767,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1705930616",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -799,7 +809,9 @@
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -837,7 +849,9 @@
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -886,6 +900,7 @@
       "attributes": {
         "access.token.lifespan": "3600",
         "client.secret.creation.time": "1705926663",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "use.refresh.tokens": "true",
@@ -1014,6 +1029,7 @@
           "consentRequired": false,
           "config": {
             "multivalued": "true",
+            "userinfo.token.claim": "true",
             "user.attribute": "foo",
             "id.token.claim": "true",
             "access.token.claim": "true",
@@ -1090,7 +1106,8 @@
           "consentRequired": false,
           "config": {
             "id.token.claim": "true",
-            "access.token.claim": "true"
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
           }
         }
       ]
@@ -1587,14 +1604,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
-            "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
+            "oidc-full-name-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
             "saml-user-property-mapper",
-            "oidc-usermodel-property-mapper",
-            "oidc-address-mapper",
             "saml-role-list-mapper",
-            "oidc-sha256-pairwise-sub-mapper"
+            "saml-user-attribute-mapper",
+            "oidc-address-mapper",
+            "oidc-usermodel-property-mapper"
           ]
         }
       },
@@ -1618,14 +1635,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-property-mapper",
-            "oidc-usermodel-property-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-role-list-mapper",
-            "oidc-usermodel-attribute-mapper",
             "oidc-full-name-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "saml-role-list-mapper",
+            "saml-user-property-mapper",
+            "oidc-address-mapper",
             "saml-user-attribute-mapper",
-            "oidc-address-mapper"
+            "oidc-usermodel-property-mapper"
           ]
         }
       }
@@ -1637,6 +1654,12 @@
         "providerId": "hmac-generated",
         "subComponents": {},
         "config": {
+          "kid": [
+            "8c92b018-9700-4af2-ad37-d1bd2afe30e0"
+          ],
+          "secret": [
+            "1lwwD-yJ-MPPatwH9p_anFzn5XoCUAUXSdXSDqm3QJQdhXTd9NY4CmdPD6tGpdUwwSfD5vaAWw3y-DFbMBbNQw"
+          ],
           "priority": [
             "100"
           ],
@@ -1651,6 +1674,12 @@
         "providerId": "rsa-generated",
         "subComponents": {},
         "config": {
+          "privateKey": [
+            "MIIEpAIBAAKCAQEAvFi5JZTJbUyHnJXv8PVWFH/54dFw3LokBVqPt+J1VmJz4i5/3UX2zyo+4U28IQbjQ5aM7t1B21selkiyfkuKydK/OBOBShCpNugT2eIJJ9HsCyx+oW2qsDhrA0bJkVARLsWcLU6rwifENYbsB960NZy3RPoC7luI8f2UXcmA6uw83jIMyeHg0GoOG6NG6Nqb7dv59uR8n7Lgb79tsPPShvq/sc8GDtSCv2/4LVOoS+ZC+Ur1Dt+2S3rsb9qxouUPXhMWiF34MW/CFv6CaUXzJ/FFmonWMCOnjoPUN+wAiVSrJ09YsdHgzhTPkfxCXSbXqfw3+uygJKUzQwvQlN4SDwIDAQABAoIBAAuSvBW2FcZ0jGSvxeWdfaOW1YjtsKyvd2Uo0mnvLVyYghxk1RCIqwjBxMldWHEDFlXh21kWGWTcLX34i5c9FxMdswhEEo61hWBNVGLwA7YBrSpmmoVa0sEvRkwWPm6CZ/viwpz6F42/mcvcNYaqRZKBxbUkU6fH0htkhIhayGQm8rlglbIxo0CQvgFwQfImTmh8/alNQ7WbFhNbbKGkPorGymjb1OIvy7c3FH7sbpSJPpQ7Q3v7mCaSRbQqCXEPfyhgS+86sTDPL3ECcgNZAfljE+vkT2eJlxdExIfHNBeXpfx1J0+OQprkiFZFZVQGJ2vNk40oB/0BddQE6JZ5btkCgYEA/Nq2KTTEJBHg7VFyYrfr5k/qD8ugyP/KCtPvd7bEkqJ/UpDRzu7+UPGyVJIwIWF+Ues1SPlgTIfas1E+CSYilM1MwB62yPciBoGViSila97QgC+2PeTxUpe+QShLeMzSIT56rnGdr8fjlvZCaiKf8YoJlZJCszWp2gU8YeF8soMCgYEAvrCRXw0d5k6GKuLW+km1hhQ5nPmvEnsNJ1UnPpIww3uh8Dv9zclGBZ8Hdpj7YbqMXETURpvx9ZwO0al3nxKZpwJ5ZaLj/sE9oiSUM05LId1vhBF+pTVUHJXmEmwjv7EVag3BrAyckI/APbTae2Nvmoqu+PIhbfrnlq8cQEUFHIUCgYAz2amnE4HxH5VvNNdu9OYz6UlHCeujrAhDZihh9SGkLBxN0xKjC5EtChMWko+6GKLtq3zWxQSBTQ6E3PEKsT5AI0VM1D+JQFxC10nRwXsCfsNkteP6FzuBQ0qpU9j+IYopdQV1Rikexa+e4krGNulzf2ntuPtigmudIJu8Op/2fwKBgQCsmPbLuPyiM9r+wFljLApQtMe9DMZpDNXIDyw5V2sp1SKrZjGA7Tgi6GGB+FA4kfhvn6Ef1BD6hWloXmK2qchHwVaOJxUExnX55+/4TFp26Y4BVTBzasSaJxea/ySQYkGGv7LX/oZL1sFjWOoUmtkuYW6kR8z4Vgz+d7szdQV+XQKBgQD3kbx8eJrVzvpxyeTeRpcvogyz7TJID0bnPIi1nvYoyV0hqd2s6sXrQkqpf/t2932D4LnYZtBqW9FkgkXyfaCo59d+YTxdrnNoWI90fJJFNl1FMO8vhoEz69H7/nHTb6CNX5ZclR0Rwfkrb9jN60z6hZkNisB67NbmtOugpPSTHQ=="
+          ],
+          "certificate": [
+            "MIICszCCAZsCBgGNYHUglzANBgkqhkiG9w0BAQsFADAdMRswGQYDVQQDDBJTZWN1cmUtRmlsZS1TeXN0ZW0wHhcNMjQwMTMxMTY1NjQ1WhcNMzQwMTMxMTY1ODI1WjAdMRswGQYDVQQDDBJTZWN1cmUtRmlsZS1TeXN0ZW0wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC8WLkllMltTIecle/w9VYUf/nh0XDcuiQFWo+34nVWYnPiLn/dRfbPKj7hTbwhBuNDlozu3UHbWx6WSLJ+S4rJ0r84E4FKEKk26BPZ4gkn0ewLLH6hbaqwOGsDRsmRUBEuxZwtTqvCJ8Q1huwH3rQ1nLdE+gLuW4jx/ZRdyYDq7DzeMgzJ4eDQag4bo0bo2pvt2/n25HyfsuBvv22w89KG+r+xzwYO1IK/b/gtU6hL5kL5SvUO37ZLeuxv2rGi5Q9eExaIXfgxb8IW/oJpRfMn8UWaidYwI6eOg9Q37ACJVKsnT1ix0eDOFM+R/EJdJtep/Df67KAkpTNDC9CU3hIPAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAD7SQS3QPUjI92A/PUHysuU/0zV4qg1RPzrV7dLsD3wt+0zxDLb5aZBsxjRvpJvuLLqEBcC7KtxjMXZ55NP4w8A38TsofcUg0xnUFnscZipmHkuj2R/XWkBXjCBa9fgPWiD5AXwt1JyDo7rF4Or8AECBtb1kRHu/12Nl/iOnavQN4fHkNwz4qUkV4L09Ii8CRDFKDbzSKZWmcoU5FiPr/xgUdvX5BetsZPGHv7NUTg7SPu2Gkf6uzM64TX6RcLcHMgwMKzLqkdiS04o/Ng2sSb5jcL3XGPX0xpOnKg/zPCCQ0aU1bqaezyMoR7ZM2cS4/e9H+g+0c1Bp1VlZRpxf7MA="
+          ],
           "priority": [
             "100"
           ]
@@ -1662,6 +1691,12 @@
         "providerId": "rsa-enc-generated",
         "subComponents": {},
         "config": {
+          "privateKey": [
+            "MIIEpAIBAAKCAQEAtY8DfAtBr8mkDMKpb974qiS781pqYNFHjbmTmeQUZddmgQ9SXg8HJDUdr7is5DJF+h9K8sXK0cz8LQJ7kJFynT42sLhx9lKXbYMJPZgqeaDrUn4N7SpCZdG9T4gjSNwUcARQyWrdlpn9GWSfrOSWpvgTnBCZISe0MGxqD7X0nJbHVHYG5LyCIyJATmhH0x4ZE5iPw01Z5Gs9WOF7JZ0LJKhapKtaZQGTIT3WvylE4GNYsdaleb9+/j7MrG7FKDIHR6CGnhAl5OHFcTIzdPNjHg+8BIR0vSVK0U1gHXy/T41yLPMT5Mzs7v3x2Y/xRGutAErh6mRcAS/cEN1iCx1vyQIDAQABAoIBAAPxMgMsf2WgvDYmt+Uc80tGdupGyU6G3MXgBKtvv12iurAMtB4kt2P630UkfmSKDujqawcwckHx8HvNtP8jmVh+tFNL/fV6P516HeY/epSfgNyOriC7LSvmzPSAITwAw1TXUyW8c0lE2LEHdUwcvoSrmEloNtr4cLoocHkc203XEuiYawSjdCgGJ7CLcF3GkN11+ZHIt6U2qDFRpmZBCUptuu79DEQJJ8JRw9JXVP5LuTup67Ui6IDuKKDdiZ0y4dy7ntLIr1aIEjN4oBWOeidE+JNeA8KwbGfGjLcIAS1sjOMnQMCNIbPCANceorP9Iw5DxLjWgq8ngiKXG2rlQzECgYEA34n/lVo7T26CTNofBc1MIgmHLTGq6CfZJlFtmdd7GSwB9TEXFLlZt71tFsy8k6yRqyymxrEAsg3EBySnzPbtGVkcsDDL9fCPNR1TBTiakf4/oWF8mdm9AcnMLy7z3f8bO/4h6K545f/tUOpqzTcs4U+zBTxt8318rukvsyS1XiUCgYEAz+xnwtitT5VyIKnfq/I5HP5nMVG3xnuSYG7spQ4wa1I8uph2XNzfe8bY0esFXlWxBT4ZIsbV5IkYzfs+hJArAzq02cWvvx38cGMx1d8Okdgwjyb45nSODC/Pij0Fsb48L2ZhpZSeGdfpH2IEQC8Yd/abSFTekTuGVC0ILBxvP9UCgYEAmUV9wWJFGImlPhyw+MFzWkM+NHbBwLzR37wlcj6VYQUTspMeSE9ufNWdXuyywG6q0rui/smOuIdHyb4QcDE/EQpQ6V4L+24eQ0UAD6xoD4JNDtJRJQxu1DMRlaiT/btVaSUvCuPWcZ2xkrGo2VzjoPmMviJZIYMBYszwr9yTnyECgYEAvAprVLYtF1pq2suG87SennAd12a2M5UyLnBjKGsKsySus3qLITTIEOMm18IbGtOYwssEZIU6j/LFMhRU2AKiQ8tmH8U/SjLOSL4NJgUS4ieI0w5F7/XdOXxL0BOcAMGxIJURHnSn/2ta8/zrJzjwgh3PFb1bhDE3LQ2E5I/atPkCgYAIxa0ltURIgaA3AlAYZerhH01rndBH3Kb7EyjSjPtl1PBghPaeFaSQAeI0BtK/Zj0QMnRuiELuMvuLtOTcpoBa/VeCwfh4zuOErJ/cmKMWCzH2BILEQrVc7ugQqn07dNiyT0ltu1MKVz+u4PgPnQ0/v6vvxzpsDeult96BWGpnng=="
+          ],
+          "certificate": [
+            "MIICszCCAZsCBgGNYHUjCTANBgkqhkiG9w0BAQsFADAdMRswGQYDVQQDDBJTZWN1cmUtRmlsZS1TeXN0ZW0wHhcNMjQwMTMxMTY1NjQ1WhcNMzQwMTMxMTY1ODI1WjAdMRswGQYDVQQDDBJTZWN1cmUtRmlsZS1TeXN0ZW0wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1jwN8C0GvyaQMwqlv3viqJLvzWmpg0UeNuZOZ5BRl12aBD1JeDwckNR2vuKzkMkX6H0ryxcrRzPwtAnuQkXKdPjawuHH2Updtgwk9mCp5oOtSfg3tKkJl0b1PiCNI3BRwBFDJat2Wmf0ZZJ+s5Jam+BOcEJkhJ7QwbGoPtfSclsdUdgbkvIIjIkBOaEfTHhkTmI/DTVnkaz1Y4XslnQskqFqkq1plAZMhPda/KUTgY1ix1qV5v37+PsysbsUoMgdHoIaeECXk4cVxMjN082MeD7wEhHS9JUrRTWAdfL9PjXIs8xPkzOzu/fHZj/FEa60ASuHqZFwBL9wQ3WILHW/JAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAKJMr5Kh2bvr/RbdqDjo7LcD4XU+cINfk4FoecMNavmu6/MmVcu+dZfBpvH4wSKZx+dH/N+N3Tr5bkrhgZjJAMUNDVXRuow0qtGlXdR9j1toYtXx/VcL0UxtJTXRnjfvzO8sAOi7GUQbx/8+0VBJM9WWFeDX59JS1iH0IUn7pwKECMDEvr6/w+7QTyo1BQHMgClV2c0GsN3QUaLcgszvy7MLglcDADlL5GUG+zPrOhnyGa6/TTsD1jCwPbvwK0oRtKdfO1BYAROkMMVzmPrKATWiRjJ2qM9eePWS4p3/erP4lG3z57rPZdzLxJV5+2+vWOWlTrtR4WgHCplFSGmVxrg="
+          ],
           "priority": [
             "100"
           ],
@@ -1676,6 +1711,12 @@
         "providerId": "aes-generated",
         "subComponents": {},
         "config": {
+          "kid": [
+            "63d064b6-540a-4881-80b2-a92bbc3cd3ec"
+          ],
+          "secret": [
+            "y29tawkeA7FbfhWwSv8lcw"
+          ],
           "priority": [
             "100"
           ]
@@ -2120,14 +2161,6 @@
           "userSetupAllowed": false
         },
         {
-          "authenticator": "registration-profile-action",
-          "authenticatorFlow": false,
-          "requirement": "REQUIRED",
-          "priority": 40,
-          "autheticatorFlow": false,
-          "userSetupAllowed": false
-        },
-        {
           "authenticator": "registration-password-action",
           "authenticatorFlow": false,
           "requirement": "REQUIRED",
@@ -2316,12 +2349,16 @@
     "cibaExpiresIn": "120",
     "cibaAuthRequestedUserHint": "login_hint",
     "oauth2DeviceCodeLifespan": "600",
+    "clientOfflineSessionMaxLifespan": "0",
     "oauth2DevicePollingInterval": "5",
+    "clientSessionIdleTimeout": "0",
     "parRequestUriLifespan": "60",
+    "clientSessionMaxLifespan": "0",
+    "clientOfflineSessionIdleTimeout": "0",
     "cibaInterval": "5",
     "realmReusableOtpCode": "false"
   },
-  "keycloakVersion": "22.0.3",
+  "keycloakVersion": "23.0.5",
   "userManagedAccessAllowed": false,
   "clientProfiles": {
     "profiles": []

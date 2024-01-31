@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpStatusCodeException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,5 +25,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {NotAuthorizedException.class})
     protected ResponseEntity<?> handleConflict(NotAuthorizedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(value = {HttpStatusCodeException.class})
+    protected ResponseEntity<?> handleConflict(HttpStatusCodeException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.valueOf(ex.getRawStatusCode()));
     }
 }
