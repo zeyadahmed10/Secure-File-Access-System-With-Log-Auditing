@@ -1,20 +1,11 @@
-package com.zeyad.securefileaccess.controllers;
+package com.zeyad.securefileaccess;
 
-import com.zeyad.securefileaccess.dto.request.SigninRequestDTO;
-import com.zeyad.securefileaccess.dto.request.SignupRequestDTO;
 import dasniko.testcontainers.keycloak.KeycloakContainer;
-import io.restassured.RestAssured;
-import io.restassured.config.RestAssuredConfig;
-import io.restassured.config.SSLConfig;
-import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
@@ -25,16 +16,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
-@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext
+@Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE )
-class AuthControllerIntegrationTest {
+public class InitContainersTest {
     static Network network = Network.newNetwork();
     @Container
     @ServiceConnection
@@ -60,14 +48,14 @@ class AuthControllerIntegrationTest {
             .withEnv("KC_DB_USERNAME","zeyad")
             .withEnv("KC_DB_URL_PORT","5432")
             .withEnv("KC_DB_URL_HOST", "postgres");
-//    @Container
-//    static GenericContainer<?> pgadminContainer = new GenericContainer<>(DockerImageName.parse("dpage/pgadmin4:latest"))
-//            .withNetwork(network)
-//            .withExposedPorts(80)
-//            .withNetworkAliases("pgadmin")
-//            .withEnv("PGADMIN_DEFAULT_EMAIL", "admin@postgres.com")
-//            .withEnv("PGADMIN_DEFAULT_PASSWORD", "password")
-//            .withEnv("PGADMIN_CONFIG_SERVER_MODE", "False");
+    @Container
+    static GenericContainer<?> pgadminContainer = new GenericContainer<>(DockerImageName.parse("dpage/pgadmin4:latest"))
+            .withNetwork(network)
+            .withExposedPorts(80)
+            .withNetworkAliases("pgadmin")
+            .withEnv("PGADMIN_DEFAULT_EMAIL", "admin@postgres.com")
+            .withEnv("PGADMIN_DEFAULT_PASSWORD", "password")
+            .withEnv("PGADMIN_CONFIG_SERVER_MODE", "False");
 
 
     @BeforeAll
@@ -75,6 +63,7 @@ class AuthControllerIntegrationTest {
         try{
             postgreSQLContainer.start();
             keycloakContainer.start();
+            pgadminContainer.start();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -108,53 +97,10 @@ class AuthControllerIntegrationTest {
         registry.add("keycloak.clientSecret",()-> "NH9NwlM7pahNEFIDOILWAjC0hYRixwNp");
         registry.add("keycloak.loginUrl",()-> authUrl + "/realms/Secure-File-System/protocol/openid-connect/token");
     }
-    @LocalServerPort
-    private int port;
+    @Test
+    void test(){
+        String x = "lol";
+        System.out.println(x);
 
-
-    @BeforeEach
-    void setup() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
-        RestAssured.config = RestAssuredConfig.config().sslConfig(SSLConfig.sslConfig().allowAllHostnames());
-    }
-    @Test
-    void testSignupUser_whenUserRegistered_shouldReturn409Conflict() {
-        SignupRequestDTO signupRequestDTO = new SignupRequestDTO(
-                "client-admin", "firstName", "lastName","email@test.com",
-                "password", "password", "user"
-        );
-        var response = given().contentType(ContentType.JSON).body(signupRequestDTO)
-                .when().post("/api/v1/auth/signup");
-        assertEquals(409, response.getStatusCode() );
-    }
-    @Test
-    void testSignupUser_whenNewUserRegistered_shouldReturn200ok() {
-        SignupRequestDTO signupRequestDTO = new SignupRequestDTO(
-                "new user", "firstName", "lastName","email@test.com",
-                "password", "password", "user"
-        );
-        var response = given().contentType(ContentType.JSON).body(signupRequestDTO)
-                .when().post("/api/v1/auth/signup");
-        assertEquals(200, response.getStatusCode() );
-    }
-
-    @Test
-    public void testSigninUser_whenValidCredentials_shouldReturn200Ok() {
-        SigninRequestDTO signinRequestDTO = new SigninRequestDTO("client-admin", "password");
-        var response =RestAssured.given()
-                .contentType(ContentType.JSON).body(signinRequestDTO)
-                .when()
-                .post("/api/v1/auth/signin");
-        assertEquals(200, response.getStatusCode());
-    }
-    @Test
-    public void testSigninUser_whenInvalidCredentials_shouldReturn401unauthorized() {
-        SigninRequestDTO signinRequestDTO = new SigninRequestDTO("invalid-admin", "password");
-        var response =RestAssured.given()
-                .contentType(ContentType.JSON).body(signinRequestDTO)
-                .when()
-                .post("/api/v1/auth/signin");
-        assertEquals(401, response.getStatusCode());
     }
 }

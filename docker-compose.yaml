@@ -7,6 +7,7 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
+      - ./dump.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres:/data/postgres
     ports:
       - "5432:5432"
@@ -31,21 +32,24 @@ services:
   keycloak:
     container_name: keycloak2
     image: quay.io/keycloak/keycloak:23.0
-    command: start-dev
     environment:
-      KEYCLOAK_DATABASE_HOST: postgres
-      KEYCLOAK_DATABASE_USER: zeyad
-      KEYCLOAK_DATABASE_PASSWORD: password
-      KEYCLOAK_DATABASE_NAME: secure_file_system
-      KEYCLOAK_DATABASE_SCHEMA: bitnami
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: password
+      KC_DB: postgres
+      KC_DB_PASSWORD: password
+      KC_DB_SCHEMA: bitnami
+      KC_DB_URL: jdbc:postgresql://postgres:5432/secure_file_system
+      KC_DB_USERNAME: zeyad
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_HOST: postgres
+      KC_FILE: /opt/keycloak/import/realm-export.json
+    command: start-dev
     depends_on:
       - postgres
     ports:
       - "8080:8080"
     networks:
       - postgres
+    volumes:
+      - ./realm-export.json:/opt/keycloak/import/realm-export.json
 networks:
   postgres:
     driver: bridge
