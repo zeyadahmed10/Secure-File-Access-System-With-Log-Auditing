@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/v1/admin/files")
-@CustomPreAuthorize(role = "admin")
 @RestController
 @Tag(name = "Admin File Controller", description = "APIs for files management and granting access to files for admins")
 public class AdminFileController {
@@ -32,6 +31,7 @@ public class AdminFileController {
     @ApiResponse(responseCode = "404", description = "No files found with the specified parameters")
     @AuditLogs
     @GetMapping
+    @CustomPreAuthorize(role = "admin")
     public List<FileResponseDTO> getFiles(@RequestParam(name = "name", defaultValue = "") String name,
                                           @RequestParam(name = "page", defaultValue = "0") Integer page,
                                           @RequestParam(name = "size", defaultValue = "10") Integer size){
@@ -44,6 +44,7 @@ public class AdminFileController {
     @ApiResponse(responseCode = "401", description = "Unauthorized access")
     @AuditLogs
     @GetMapping("/{id}")
+    @CustomPreAuthorize(role = "admin")
     public FileResponseDTO getFileById(@PathVariable Integer id){
         return fileService.findById(id);
     }
@@ -53,6 +54,7 @@ public class AdminFileController {
     @ApiResponse(responseCode = "401", description = "Unauthorized access you need to login to create file")
     @AuditLogs
     @PostMapping
+    @CustomPreAuthorize(role = "admin")
     public FileResponseDTO addFile(@RequestBody FileRequestDTO fileRequestDTO){
         return fileService.addFile(fileRequestDTO);
     }
@@ -62,6 +64,7 @@ public class AdminFileController {
     @ApiResponse(responseCode = "401", description = "Unauthorized access need to login before granting access")
     @AuditLogs
     @PostMapping("/{id}/grant-access")
+    @CustomPreAuthorize(role = "admin")
     public ResponseEntity<String> grantAccess(@PathVariable Integer id, @RequestBody GrantAccessRequestDTO grantAccessRequestDTO){
         fileService.grantAccess(id, grantAccessRequestDTO);
         return ResponseEntity.ok("Access granted successfully");
@@ -73,6 +76,7 @@ public class AdminFileController {
     @ApiResponse(responseCode = "401", description = "Unauthorized access")
     @AuditLogs
     @DeleteMapping("/{id}")
+    @CustomPreAuthorize(role = "admin")
     public ResponseEntity<Void> deleteFile(@PathVariable Integer id){
         fileService.deleteFile(id);
         return ResponseEntity.noContent().build();
@@ -84,6 +88,7 @@ public class AdminFileController {
     @ApiResponse(responseCode = "401", description = "Unauthorized access")
     @AuditLogs
     @PatchMapping("/{id}")
+    @CustomPreAuthorize(role = "admin")
     public FileResponseDTO updateFile(@PathVariable Integer id, @RequestBody FileRequestDTO fileRequestDTO){
         return fileService.updateFile(id, fileRequestDTO);
     }

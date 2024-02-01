@@ -3,6 +3,7 @@ package com.zeyad.securefileaccess.aop;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.zeyad.securefileaccess.annotation.CustomPreAuthorize;
 import com.zeyad.securefileaccess.exceptions.NotAuthorizedException;
 import org.aspectj.lang.JoinPoint;
@@ -27,6 +28,7 @@ public class CustomPreAuthorizeAspect {
             return;
         Jwt jwt = (Jwt)principal;
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         JsonNode jwtJson = objectMapper.readTree(objectMapper.writeValueAsString(jwt));
         JsonNode roles = jwtJson.get("realm_access").get("roles");
         String annotationRole = getAnnotationValue(joinPoint);
